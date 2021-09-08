@@ -51,4 +51,4 @@ $vars = ""
 foreach($var in $diff) {
     $vars += "set(ENV{$($var.Name)} `"$($var.Value -Replace "\\", "\\")`")`n"
 }
-$vars | Out-File "env.cmake"
+$vars | Out-File "./env.cmake"

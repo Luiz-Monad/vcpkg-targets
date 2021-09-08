@@ -1,14 +1,32 @@
 message(STATUS "Custom Windows MSVC Toolchain")
 
-set(CMAKE_SYSTEM_NAME "Windows" CACHE STRING "")
-
 if("" STREQUAL "$ENV{DevEnvDir}")
     message(STATUS "Running Enter-DevShell")
-
-    set(__cmd "-nop" "-file" "${CMAKE_CURRENT_LIST_DIR}/enter_devshell.ps1")
-    execute_process(COMMAND "pwsh" ${__cmd})
+    find_program(PWSH_PATH pwsh)
+    execute_process(
+        COMMAND "${PWSH_PATH}" 
+            "-nop"
+            "-file"
+            "${CMAKE_CURRENT_LIST_DIR}/enter_devshell.ps1"
+        WORKING_DIRECTORY        
+            "${CMAKE_CURRENT_BINARY_DIR}"
+        RESULT_VARIABLE _result
+    )
+    if(NOT _result EQUAL 0)
+      message(FATAL_ERROR "Enter-DevShell failed")
+    endif()
     include("${CMAKE_CURRENT_BINARY_DIR}/env.cmake")
 endif()
+
+string(REGEX REPLACE "[\\/]" "" _sdk_version "$ENV{WindowsSDKVersion}")
+
+set(CMAKE_SYSTEM_NAME "Windows" CACHE STRING "")
+set(CMAKE_SYSTEM_VERSION ${_sdk_version} CACHE STRING "")
+set(CMAKE_SYSTEM_PROCESSOR ${VCPKG_TARGET_ARCHITECTURE} CACHE STRING "")
+
+message(STATUS "devenv:  $ENV{DevEnvDir}")
+message(STATUS "sdk:     ${_sdk_version}")
+message(STATUS "abi:     ${VCPKG_TARGET_ARCHITECTURE}")
 
 if(NOT _VCPKG_WINDOWS_TOOLCHAIN)
     set(_VCPKG_WINDOWS_TOOLCHAIN 1)

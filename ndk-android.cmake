@@ -6,12 +6,6 @@ set (ANDROID_NDK_VERSION "22.1.7171670")
 set (ANDROID_NDK_SYSTEM_VERSION 29)
 set (ANDROID_NDK_NINJA "C:/Microsoft/AndroidSDK/25/cmake/3.10.2.4988404/bin/ninja.exe")
 
-message(STATUS "root:    ${ANDROID_SDK_ROOT}")
-message(STATUS "ndk:     ${ANDROID_NDK_ROOT}")
-message(STATUS "ndk_ver: ${ANDROID_NDK_VERSION}")
-message(STATUS "sys_ver: ${ANDROID_NDK_SYSTEM_VERSION}")
-message(STATUS "ninja:   ${ANDROID_NDK_NINJA}")
-
 # 3. Set VCPKG_TARGET_TRIPLET according to ANDROID_ABI
 # 
 # There are four different Android ABI, each of which maps to 
@@ -59,6 +53,13 @@ set(CMAKE_MAKE_PROGRAM $ENV{ANDROID_NDK_NINJA} CACHE STRING "")
 set(CMAKE_ANDROID_ARCH_ABI ${ANDROID_ABI} CACHE STRING "")
 set(CMAKE_ANDROID_NDK ${ANDROID_NDK} CACHE STRING "")
 set(CMAKE_ANDROID_STL_TYPE ${ANDROID_STL_TYPE} CACHE STRING "")
+
+message(STATUS "root:    ${ANDROID_SDK_ROOT}")
+message(STATUS "ndk:     ${ANDROID_NDK_ROOT}")
+message(STATUS "ndk_ver: ${ANDROID_NDK_VERSION}")
+message(STATUS "sys_ver: ${ANDROID_NDK_SYSTEM_VERSION}")
+message(STATUS "ninja:   ${ANDROID_NDK_NINJA}")
+message(STATUS "ndk-abi: ${ANDROID_ABI}")
 
 if(NOT _VCPKG_ANDROID_TOOLCHAIN)
     set(_VCPKG_ANDROID_TOOLCHAIN 1)
