@@ -1,3 +1,4 @@
+param($arch)
 
 function Get-VsWhere {
     param (
@@ -32,18 +33,27 @@ function Get-VsInstallPath {
 }
 
 function Enter-DevShell {
+    param (
+        [String] $DevCmdArch
+    )
     
     $module = Get-DevShell
     Import-module $module | Out-Null
     $vsinstall = Get-VsInstallPath
+
+    $DevCmdArgs = $(switch ($DevCmdArch) {
+        'x86' { '-arch=x86' }
+        'x64' { '-arch=amd64' }
+        Default {}
+    })
     
     Push-Location
-    Enter-VsDevShell -VsInstallPath $vsinstall | Out-Null
+    Enter-VsDevShell -VsInstallPath $vsinstall -DevCmdArguments $DevCmdArgs | Out-Null
     Pop-Location
 }
 
 $before = Get-Item env:
-Enter-DevShell
+Enter-DevShell -DevCmdArch $arch
 $after = Get-Item env:
 
 $diff = $after | Where-Object { $_ -notin $before } | Sort-Object { $_.Name }

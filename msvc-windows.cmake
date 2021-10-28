@@ -6,9 +6,9 @@ if("" STREQUAL "$ENV{DevEnvDir}")
     execute_process(
         COMMAND "${PWSH_PATH}" 
             "-nop"
-            "-file"
-            "${CMAKE_CURRENT_LIST_DIR}/enter_devshell.ps1"
-        WORKING_DIRECTORY        
+            "-file" "${CMAKE_CURRENT_LIST_DIR}/enter_devshell.ps1"
+            "-arch" "${VCPKG_TARGET_ARCHITECTURE}"
+        WORKING_DIRECTORY
             "${CMAKE_CURRENT_BINARY_DIR}"
         RESULT_VARIABLE _result
     )
