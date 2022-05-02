@@ -1,10 +1,18 @@
 message(STATUS "Custom Android NDK Toolchain")
 
-set (ANDROID_SDK_ROOT "C:/Microsoft/AndroidSDK/25")
-set (ANDROID_NDK_ROOT "C:/Microsoft/AndroidSDK/25/ndk")
-set (ANDROID_NDK_VERSION "22.1.7171670")
-set (ANDROID_NDK_SYSTEM_VERSION 29)
-set (ANDROID_NDK_NINJA "C:/Microsoft/AndroidSDK/25/cmake/3.10.2.4988404/bin/ninja.exe")
+if (CMAKE_HOST_WIN32)
+    set (ANDROID_SDK_ROOT "C:/Microsoft/AndroidSDK/25")
+    set (ANDROID_NDK_ROOT "C:/Microsoft/AndroidSDK/25/ndk")
+    set (ANDROID_NDK_VERSION "22.1.7171670")
+    set (ANDROID_NDK_SYSTEM_VERSION 29)
+    set (ANDROID_NDK_NINJA "C:/Microsoft/AndroidSDK/25/cmake/3.18.1/bin/ninja.exe")
+else()
+    set (ANDROID_SDK_ROOT "/opt/android-sdk/25")
+    set (ANDROID_NDK_ROOT "/opt/android-sdk/25/ndk")
+    set (ANDROID_NDK_VERSION "22.1.7171670")
+    set (ANDROID_NDK_SYSTEM_VERSION 29)
+    set (ANDROID_NDK_NINJA "/opt/android-sdk/25/cmake/3.18.1/bin/ninja")
+endif()
 
 # 3. Set VCPKG_TARGET_TRIPLET according to ANDROID_ABI
 # 
